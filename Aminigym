@@ -1,0 +1,393 @@
+import React from "react";
+import { motion } from "framer-motion";
+import { Phone, Mail, MapPin, Clock, Check, Shield, Sword, Star, Instagram, Facebook, Youtube, Menu } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+
+/**
+ * Amini Gym – Single-Page Website
+ *
+ * Notes:
+ * - Ersetze LOGO_URL durch den finalen Bildpfad (PNG/SVG) deines Logos.
+ * - Die Farbwelt ist an dein Logo angelehnt: dunkles Grau/Schwarz, Metall/Silber, Rot-Akzent.
+ * - Alle Sektionen sind "hero", "Kurse", "Trainer", "Stundenplan", "Preise", "Galerie", "Kontakt".
+ * - Leicht editierbar: Unten stehen Daten-Arrays für Kurse, Team, Preise und Stundenplan.
+ */
+
+const LOGO_URL =
+  "https://images.unsplash.com/photo-1607962837359-10dca3b81a3b?q=80&w=1200&auto=format&fit=crop"; // TEMP Platzhalter – bitte ersetzen
+
+const BRAND = {
+  name: "AMINI GYM",
+  tagline: "Boxing • Kickboxing • Muay Thai",
+  phone: "+49 151 23456789",
+  email: "info@aminigym.de",
+  address: "Urbanstraße 10, 10967 Berlin",
+  googleMaps: "https://maps.google.com/", // optional: echter Maps-Link
+  instagram: "https://instagram.com/",
+  facebook: "https://facebook.com/",
+  youtube: "https://youtube.com/",
+};
+
+const kurse = [
+  {
+    title: "Boxing",
+    desc: "Technik, Footwork, Sparring – für Anfänger bis Fortgeschrittene.",
+    icon: Shield,
+  },
+  {
+    title: "Kickboxing",
+    desc: "Moderne Kicktechniken, Kombinationen, Partnerdrills.",
+    icon: Sword,
+  },
+  {
+    title: "Muay Thai",
+    desc: "Elbows, Knees, Clinch – das volle Thaiboxen-Programm.",
+    icon: Star,
+  },
+];
+
+const trainer = [
+  {
+    name: "Ali Amini",
+    role: "Head Coach – Muay Thai",
+    bio: "Ehem. Wettkämpfer, über 10 Jahre Erfahrung, lizensierter Trainer.",
+    img: "https://images.unsplash.com/photo-1558261242-58c681b3a497?q=80&w=900&auto=format&fit=crop",
+  },
+  {
+    name: "Mara K.",
+    role: "Coach – Boxing",
+    bio: "Fokus auf Technik, Defense und smarte Kombos.",
+    img: "https://images.unsplash.com/photo-1615212049275-95561c7d70ff?q=80&w=900&auto=format&fit=crop",
+  },
+  {
+    name: "Deniz T.",
+    role: "Coach – Kickboxing",
+    bio: "Intensive Padsessions, saubere Kicks, Kondition.",
+    img: "https://images.unsplash.com/photo-1542272604-787c3835535d?q=80&w=900&auto=format&fit=crop",
+  },
+];
+
+const preise = [
+  { name: "Probetraining", price: "0€", perks: ["1x kostenlos", "Leihbandagen verfügbar", "15–20 Min. Vorgespräch"] },
+  { name: "Monat Flex", price: "69€", perks: ["Alle Kurse", "Monatlich kündbar", "Community-Events"] },
+  { name: "12 Monate", price: "59€", perks: ["Alle Kurse", "Sparring & Open Gym", "1x Personal Check-in/Monat"] },
+];
+
+const stundenplan = [
+  { day: "Mo", time: "18:00", course: "Boxing Basics" },
+  { day: "Mo", time: "19:00", course: "Muay Thai" },
+  { day: "Di", time: "18:00", course: "Kickboxing" },
+  { day: "Di", time: "19:15", course: "Boxing Sparring" },
+  { day: "Mi", time: "18:30", course: "Muay Thai Technik" },
+  { day: "Do", time: "18:00", course: "Kickboxing Drills" },
+  { day: "Fr", time: "18:00", course: "Open Gym & Pads" },
+];
+
+const Section = ({ id, children, className = "" }) => (
+  <section id={id} className={`py-16 md:py-24 ${className}`}>{children}</section>
+);
+
+const Container = ({ children }) => (
+  <div className="max-w-6xl mx-auto px-4 md:px-6">{children}</div>
+);
+
+const MetalFrame = ({ children, className = "" }) => (
+  <div className={`relative rounded-2xl overflow-hidden shadow-xl ${className}`}>
+    <div className="absolute inset-0 bg-gradient-to-br from-neutral-800 via-neutral-900 to-black" />
+    <div className="absolute inset-0 opacity-40" style={{
+      background: "radial-gradient(circle at 30% 20%, rgba(255,255,255,.12), transparent 25%), radial-gradient(circle at 70% 80%, rgba(255,255,255,.08), transparent 35%)",
+    }} />
+    <div className="relative border border-neutral-700/70 rounded-2xl">
+      <div className="absolute inset-0 rounded-2xl ring-1 ring-white/10" />
+      {children}
+    </div>
+  </div>
+);
+
+const Nav = () => {
+  const [open, setOpen] = React.useState(false);
+  const links = [
+    { href: "#kurse", label: "Kurse" },
+    { href: "#trainer", label: "Trainer" },
+    { href: "#plan", label: "Stundenplan" },
+    { href: "#preise", label: "Preise" },
+    { href: "#kontakt", label: "Kontakt" },
+  ];
+  return (
+    <div className="fixed top-0 left-0 right-0 z-50 bg-black/70 backdrop-blur supports-[backdrop-filter]:bg-black/50 border-b border-white/10">
+      <Container>
+        <div className="flex items-center justify-between py-3">
+          <a href="#" className="flex items-center gap-3">
+            <img src={LOGO_URL} alt="Amini Gym Logo" className="h-10 w-10 object-cover rounded" />
+            <div className="leading-tight">
+              <div className="text-xl font-extrabold tracking-wide text-white">AMINI GYM</div>
+              <div className="text-[11px] uppercase tracking-[0.2em] text-neutral-300">Boxing • Kick & Thai Boxing</div>
+            </div>
+          </a>
+          <nav className="hidden md:flex items-center gap-8">
+            {links.map((l) => (
+              <a key={l.href} href={l.href} className="text-sm text-neutral-200 hover:text-white transition">
+                {l.label}
+              </a>
+            ))}
+            <a href="#kontakt" className="inline-flex items-center gap-2 text-sm font-semibold text-white bg-gradient-to-r from-red-600 to-red-500 px-4 py-2 rounded-xl shadow">
+              Jetzt Probetraining
+            </a>
+          </nav>
+          <Button variant="ghost" className="md:hidden text-white" onClick={() => setOpen(!open)}>
+            <Menu />
+          </Button>
+        </div>
+        {open && (
+          <div className="md:hidden pb-4">
+            <div className="flex flex-col gap-3">
+              {links.map((l) => (
+                <a key={l.href} href={l.href} className="text-neutral-200" onClick={() => setOpen(false)}>
+                  {l.label}
+                </a>
+              ))}
+              <a href="#kontakt" onClick={() => setOpen(false)} className="inline-flex items-center justify-center gap-2 text-sm font-semibold text-white bg-gradient-to-r from-red-600 to-red-500 px-4 py-2 rounded-xl shadow">
+                Jetzt Probetraining
+              </a>
+            </div>
+          </div>
+        )}
+      </Container>
+    </div>
+  );
+};
+
+const Hero = () => (
+  <div className="relative pt-28 pb-16 md:pt-40 md:pb-24 bg-[radial-gradient(1200px_600px_at_80%_-20%,rgba(239,68,68,.25),transparent),radial-gradient(800px_400px_at_0%_20%,rgba(255,255,255,.08),transparent)]">
+    <Container>
+      <div className="grid md:grid-cols-2 gap-10 items-center">
+        <div>
+          <motion.h1 initial={{opacity:0, y:20}} whileInView={{opacity:1, y:0}} viewport={{once:true}} transition={{duration:.6}} className="text-4xl md:text-6xl font-black text-white tracking-tight">
+            Kämpfe smart. Trainiere hart.
+          </motion.h1>
+          <p className="mt-5 text-neutral-300 max-w-xl">
+            Premium Kampfsport in Berlin – Boxing, Kickboxing & Muay Thai. Strukturierte Kurse, starke Community, echte Resultate.
+          </p>
+          <div className="mt-7 flex flex-wrap gap-3">
+            <a href="#kontakt" className="inline-flex items-center gap-2 text-sm font-semibold text-white bg-gradient-to-r from-red-600 to-red-500 px-5 py-3 rounded-2xl shadow">
+              Probetraining buchen
+            </a>
+            <a href="#kurse" className="inline-flex items-center gap-2 text-sm font-semibold text-white/90 border border-white/20 px-5 py-3 rounded-2xl">
+              Kurse ansehen
+            </a>
+          </div>
+          <div className="mt-6 flex flex-col sm:flex-row gap-5 text-neutral-300">
+            <div className="flex items-center gap-2"><Phone className="h-4 w-4" /> {BRAND.phone}</div>
+            <div className="flex items-center gap-2"><Mail className="h-4 w-4" /> {BRAND.email}</div>
+          </div>
+        </div>
+        <MetalFrame>
+          <img src={LOGO_URL} alt="Amini Gym Logo" className="w-full h-[360px] object-cover opacity-90" />
+        </MetalFrame>
+      </div>
+    </Container>
+  </div>
+);
+
+const Kurse = () => (
+  <Section id="kurse" className="bg-gradient-to-b from-black to-neutral-950">
+    <Container>
+      <motion.h2 initial={{opacity:0, y:10}} whileInView={{opacity:1, y:0}} viewport={{once:true}} className="text-3xl md:text-4xl font-extrabold text-white">
+        Kurse
+      </motion.h2>
+      <p className="text-neutral-300 mt-2 max-w-2xl">Klare Strukturen, starke Basics und intensives Coaching – für alle Levels.</p>
+      <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 mt-10">
+        {kurse.map((k) => (
+          <Card key={k.title} className="bg-neutral-900/60 border-neutral-800">
+            <CardContent className="p-6">
+              <k.icon className="h-8 w-8" />
+              <div className="mt-4 text-xl font-bold text-white">{k.title}</div>
+              <p className="text-neutral-300 text-sm mt-2">{k.desc}</p>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </Container>
+  </Section>
+);
+
+const Trainer = () => (
+  <Section id="trainer" className="bg-[linear-gradient(180deg,#0a0a0a,transparent),radial-gradient(1000px_400px_at_50%_-20%,rgba(239,68,68,.15),transparent)]">
+    <Container>
+      <h2 className="text-3xl md:text-4xl font-extrabold text-white">Trainer</h2>
+      <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 mt-10">
+        {trainer.map((t) => (
+          <MetalFrame key={t.name}>
+            <img src={t.img} alt={t.name} className="w-full h-64 object-cover" />
+            <div className="p-5">
+              <div className="text-xl font-bold text-white">{t.name}</div>
+              <div className="text-red-400 text-sm font-semibold">{t.role}</div>
+              <p className="text-neutral-300 text-sm mt-2">{t.bio}</p>
+            </div>
+          </MetalFrame>
+        ))}
+      </div>
+    </Container>
+  </Section>
+);
+
+const Stundenplan = () => (
+  <Section id="plan" className="bg-neutral-950">
+    <Container>
+      <h2 className="text-3xl md:text-4xl font-extrabold text-white">Stundenplan</h2>
+      <div className="mt-6 overflow-hidden rounded-2xl border border-neutral-800">
+        <table className="min-w-full divide-y divide-neutral-800 text-sm">
+          <thead className="bg-neutral-900/60 text-neutral-300">
+            <tr>
+              <th className="px-4 py-3 text-left">Tag</th>
+              <th className="px-4 py-3 text-left">Zeit</th>
+              <th className="px-4 py-3 text-left">Kurs</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-neutral-800 text-neutral-200">
+            {stundenplan.map((row, i) => (
+              <tr key={i} className="hover:bg-neutral-900/40">
+                <td className="px-4 py-3">{row.day}</td>
+                <td className="px-4 py-3">{row.time}</td>
+                <td className="px-4 py-3">{row.course}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="text-neutral-400 text-xs mt-3 flex items-center gap-2"><Clock className="h-4 w-4" /> Änderungen vorbehalten – aktuelle Infos auf Social Media.</p>
+    </Container>
+  </Section>
+);
+
+const Preise = () => (
+  <Section id="preise" className="bg-[radial-gradient(900px_300px_at_50%_-10%,rgba(239,68,68,.18),transparent)]">
+    <Container>
+      <h2 className="text-3xl md:text-4xl font-extrabold text-white">Preise</h2>
+      <div className="grid md:grid-cols-3 gap-6 mt-10">
+        {preise.map((p) => (
+          <MetalFrame key={p.name}>
+            <div className="p-6">
+              <div className="text-neutral-300 uppercase tracking-[.2em] text-xs">{p.name}</div>
+              <div className="mt-2 text-4xl font-black text-white">{p.price}</div>
+              <ul className="mt-4 space-y-2">
+                {p.perks.map((perk) => (
+                  <li key={perk} className="flex items-center gap-2 text-neutral-300 text-sm">
+                    <Check className="h-4 w-4" /> {perk}
+                  </li>
+                ))}
+              </ul>
+              <a href="#kontakt" className="mt-6 inline-flex items-center justify-center w-full text-sm font-semibold text-white bg-gradient-to-r from-red-600 to-red-500 px-4 py-3 rounded-xl shadow">
+                Mitglied werden
+              </a>
+            </div>
+          </MetalFrame>
+        ))}
+      </div>
+    </Container>
+  </Section>
+);
+
+const Galerie = () => (
+  <Section className="bg-neutral-950">
+    <Container>
+      <h2 className="text-3xl md:text-4xl font-extrabold text-white">Galerie</h2>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6">
+        {[1,2,3,4,5,6,7,8].map((i) => (
+          <div key={i} className="aspect-[4/3] overflow-hidden rounded-xl border border-neutral-800">
+            <img
+              className="w-full h-full object-cover hover:scale-105 transition"
+              src={`https://picsum.photos/seed/aminigym-${i}/800/600`}
+              alt={`Amini Gym ${i}`}
+            />
+          </div>
+        ))}
+      </div>
+    </Container>
+  </Section>
+);
+
+const Kontakt = () => (
+  <Section id="kontakt" className="bg-[linear-gradient(180deg,rgba(255,255,255,.04),rgba(0,0,0,.6))]">
+    <Container>
+      <div className="grid md:grid-cols-5 gap-8 items-stretch">
+        <MetalFrame className="md:col-span-3">
+          <div className="p-6 md:p-8">
+            <h3 className="text-2xl font-extrabold text-white">Kontakt & Probetraining</h3>
+            <form className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4" action={`mailto:${BRAND.email}`} method="post">
+              <Input required placeholder="Vor- und Nachname" className="bg-neutral-900/60 border-neutral-800 col-span-1 sm:col-span-2" />
+              <Input required type="email" placeholder="E-Mail" className="bg-neutral-900/60 border-neutral-800" />
+              <Input placeholder="Telefon" className="bg-neutral-900/60 border-neutral-800" />
+              <Textarea placeholder="Deine Nachricht (Wunschtermin, Kurs, Level)" className="bg-neutral-900/60 border-neutral-800 col-span-1 sm:col-span-2 min-h-[120px]" />
+              <Button type="submit" className="col-span-1 sm:col-span-2 bg-gradient-to-r from-red-600 to-red-500 text-white">Senden</Button>
+            </form>
+            <div className="mt-6 grid sm:grid-cols-3 gap-4 text-neutral-300 text-sm">
+              <div className="flex items-center gap-2"><Phone className="h-4 w-4" /> {BRAND.phone}</div>
+              <div className="flex items-center gap-2"><Mail className="h-4 w-4" /> {BRAND.email}</div>
+              <a href={BRAND.googleMaps} className="flex items-center gap-2 hover:text-white"><MapPin className="h-4 w-4" /> {BRAND.address}</a>
+            </div>
+          </div>
+        </MetalFrame>
+        <MetalFrame className="md:col-span-2">
+          <div className="p-6 md:p-8">
+            <h3 className="text-2xl font-extrabold text-white">Anfahrt</h3>
+            <div className="mt-4 aspect-video bg-neutral-900/60 rounded-xl flex items-center justify-center text-neutral-400 border border-neutral-800">
+              <MapPin className="mr-2" /> Google Maps Einbettung – Link oben anpassen
+            </div>
+            <div className="mt-6 flex gap-3">
+              <a href={BRAND.instagram} className="p-3 rounded-xl border border-neutral-800 hover:border-red-500/50">
+                <Instagram />
+              </a>
+              <a href={BRAND.facebook} className="p-3 rounded-xl border border-neutral-800 hover:border-red-500/50">
+                <Facebook />
+              </a>
+              <a href={BRAND.youtube} className="p-3 rounded-xl border border-neutral-800 hover:border-red-500/50">
+                <Youtube />
+              </a>
+            </div>
+          </div>
+        </MetalFrame>
+      </div>
+    </Container>
+  </Section>
+);
+
+const Footer = () => (
+  <footer className="bg-black border-t border-white/10 py-10">
+    <Container>
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div className="flex items-center gap-3">
+          <img src={LOGO_URL} alt="Amini Gym Logo" className="h-10 w-10 object-cover rounded" />
+          <div>
+            <div className="text-white font-bold">{BRAND.name}</div>
+            <div className="text-xs text-neutral-400">{BRAND.tagline}</div>
+          </div>
+        </div>
+        <div className="text-neutral-400 text-sm">
+          © {new Date().getFullYear()} Amini Gym – Alle Rechte vorbehalten
+        </div>
+      </div>
+    </Container>
+  </footer>
+);
+
+export default function AminiGymSite() {
+  return (
+    <div className="min-h-screen bg-black text-neutral-100 selection:bg-red-600/60 selection:text-white">
+      <Nav />
+      <main>
+        <Hero />
+        <Kurse />
+        <Trainer />
+        <Stundenplan />
+        <Preise />
+        <Galerie />
+        <Kontakt />
+      </main>
+      <Footer />
+    </div>
+  );
+}
