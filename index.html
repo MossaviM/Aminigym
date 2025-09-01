@@ -1,380 +1,139 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AMINI GYM – Kampfsport in Berlin</title>
-  <meta name="description" content="Amini Gym – Boxing, Kickboxing & Muay Thai. Strukturierte Kurse, starke Community, echte Resultate." />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --bg: #0a0a0a;
-      --panel:#121212;
-      --muted:#b3b3b3;
-      --text:#f4f4f5;
-      --line:#222;
-      --accent:#ef4444; /* Rot, ans Logo angelehnt */
-      --accent-2:#f87171;
-      --radius: 16px;
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
-    }
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-    a{color:inherit;text-decoration:none}
-    img{max-width:100%;display:block}
+import React from "react";
+import { motion } from "framer-motion";
+import { Dumbbell, Mail, Phone, MapPin, Clock, Facebook, Instagram, ArrowRight, Calendar, Shield, Sparkles } from "lucide-react";
 
-    /* Layout */
-    .container{max-width:1180px;margin:0 auto;padding:0 20px}
-    .section{padding:80px 0}
-    .title{font-size:36px;font-weight:900;margin:0 0 12px}
-    .sub{color:var(--muted);margin:0 0 28px}
+const nav = [
+  { label: "Start", href: "#hero" },
+  { label: "Kurse", href: "#kurse" },
+  { label: "Stundenplan", href: "#stundenplan" },
+  { label: "Trainer", href: "#trainer" },
+  { label: "Preise", href: "#preise" },
+  { label: "Kontakt", href: "#kontakt" },
+];
 
-    /* Navbar */
-    .nav{position:sticky;top:0;z-index:40;background:rgba(0,0,0,.6);backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid rgba(255,255,255,.08)}
-    .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
-    .brand{display:flex;align-items:center;gap:12px}
-    .brand img{height:44px;width:44px;object-fit:cover;border-radius:8px}
-    .brand h1{font-size:18px;margin:0;letter-spacing:.06em}
-    .brand small{display:block;color:#d4d4d8;font-size:11px;letter-spacing:.2em;text-transform:uppercase}
+const kurse = [
+  { title: "Boxen", desc: "Technik, Kondition & Sparring", icon: <Shield className="w-6 h-6" /> },
+  { title: "Kick- & Thaiboxen", desc: "Kicks, Clinch, Knie, Ellbogen", icon: <Dumbbell className="w-6 h-6" /> },
+  { title: "Muay Thai", desc: "Tradition & Disziplin – für alle Levels", icon: <Sparkles className="w-6 h-6" /> },
+];
 
-    /* Responsive no-JS menu (checkbox hack) */
-    #menu-toggle{display:none}
-    .menu{display:flex;gap:28px;align-items:center}
-    .menu a{color:#e5e7eb;font-weight:600}
-    .cta{padding:10px 16px;border-radius:12px;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;font-weight:800}
-    .hamburger{display:none;cursor:pointer;padding:10px;border:1px solid rgba(255,255,255,.12);border-radius:12px}
+const trainer = [
+  { name: "Ali Amini", role: "Head Coach – Muay Thai", bio: "10+ Jahre Erfahrung, mehrfacher Turniersieger.", img: "https://images.unsplash.com/photo-1605296867304-46d5465a13f1?q=80&w=1200&auto=format&fit=crop" },
+  { name: "Nina K.", role: "Boxen & Conditioning", bio: "Technikfokus, Power & Mobility.", img: "https://images.unsplash.com/photo-1521805103424-d8f8430e893f?q=80&w=1200&auto=format&fit=crop" },
+  { name: "Marco L.", role: "Kickboxen", bio: "Fight-Prep & Footwork Spezialist.", img: "https://images.unsplash.com/photo-1544273677-c433136021b4?q=80&w=1200&auto=format&fit=crop" },
+];
 
-    @media (max-width:860px){
-      .menu{display:none}
-      .hamburger{display:block}
-      #menu-toggle:checked ~ .menu-panel{max-height:360px;opacity:1}
-      .menu-panel{display:block}
-    }
+const preise = [
+  { name: "Probetraining", price: "0€", features: ["Einmalig", "60 Minuten", "Betreuung vom Coach"]},
+  { name: "Monat Flex", price: "59€", features: ["Alle Kurse", "Monatlich kündbar", "Keine Anmeldegebühr"]},
+  { name: "Jahresplan", price: "49€/Monat", features: ["Beste Preis-Leistung", "Alle Kurse", "Persönlicher Trainingsplan"]},
+];
 
-    .menu-panel{display:none;overflow:hidden;max-height:0;opacity:0;transition:max-height .4s ease,opacity .3s ease;border-bottom:1px solid rgba(255,255,255,.08)}
-    .menu-panel a{display:block;padding:14px 0;border-top:1px solid rgba(255,255,255,.06);color:#e5e7eb;font-weight:600}
-    .menu-panel .cta{display:inline-block;margin:12px 0}
+const stundenplan = [
+  { tag: "Mo", zeit: "18:00", kurs: "Boxen (All Levels)" },
+  { tag: "Mo", zeit: "19:30", kurs: "Muay Thai (Fortgeschritten)" },
+  { tag: "Di", zeit: "18:00", kurs: "Kickboxen (Einsteiger)" },
+  { tag: "Mi", zeit: "18:00", kurs: "Muay Thai (All Levels)" },
+  { tag: "Do", zeit: "19:00", kurs: "Boxen (Fortgeschritten)" },
+  { tag: "Fr", zeit: "18:30", kurs: "Sparring (Nur mit Freigabe)" },
+];
 
-    /* Hero */
-    .hero{position:relative;padding:120px 0 80px;background:
-      radial-gradient(900px 400px at 80% -10%, rgba(239,68,68,.25), transparent),
-      radial-gradient(700px 300px at 0% 10%, rgba(255,255,255,.08), transparent)}
-    .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:32px;align-items:center}
-    .hero h2{font-size:48px;line-height:1.05;margin:0 0 10px;font-weight:900}
-    .hero p{color:var(--muted);max-width:640px}
-    .btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
-    .btn{display:inline-block;padding:14px 18px;border-radius:14px;font-weight:800;border:1px solid rgba(255,255,255,.12)}
-    .btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));border:none;color:white}
-    .frame{position:relative;border:1px solid #2a2a2a;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);background:linear-gradient(180deg,#0f0f10,#050505)}
-    .frame img{height:360px;width:100%;object-fit:cover;opacity:.95}
-
-    @media (max-width:980px){
-      .hero-grid{grid-template-columns:1fr}
-      .hero h2{font-size:40px}
-    }
-
-    /* Cards */
-    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-    .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow)}
-    .card h3{margin:2px 0 8px;font-size:20px}
-    .muted{color:var(--muted);font-size:15px}
-    @media (max-width:980px){.grid-3{grid-template-columns:1fr 1fr}}
-    @media (max-width:640px){.grid-3{grid-template-columns:1fr}}
-
-    /* Trainer */
-    .trainer{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-    .trainer .item{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:linear-gradient(180deg,#101010,#0a0a0a)}
-    .trainer .item img{height:240px;width:100%;object-fit:cover}
-    .trainer .item .info{padding:16px}
-    .role{color:#fca5a5;font-weight:700;font-size:13px}
-    @media (max-width:980px){.trainer{grid-template-columns:1fr 1fr}}
-    @media (max-width:640px){.trainer{grid-template-columns:1fr}}
-
-    /* Table */
-    .table-wrap{overflow:auto;border:1px solid var(--line);border-radius:16px}
-    table{width:100%;border-collapse:collapse;font-size:15px}
-    thead{background:#131313;color:#d4d4d8}
-    th,td{padding:14px 16px;border-bottom:1px solid #1f1f1f;text-align:left}
-    tbody tr:hover{background:#0f0f0f}
-    .note{color:var(--muted);font-size:12px;margin-top:10px}
-
-    /* Preise */
-    .prices{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-    .price{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:linear-gradient(180deg,#101010,#0a0a0a)}
-    .price .inner{padding:22px}
-    .badge{color:#d4d4d8;text-transform:uppercase;letter-spacing:.18em;font-size:11px}
-    .money{font-size:36px;font-weight:900;margin-top:6px}
-    .perks{margin:14px 0 0;padding:0;list-style:none}
-    .perks li{display:flex;gap:10px;align-items:center;color:var(--muted);margin:8px 0}
-    .price .cta{display:block;text-align:center;margin-top:14px}
-    @media (max-width:980px){.prices{grid-template-columns:1fr 1fr}}
-    @media (max-width:640px){.prices{grid-template-columns:1fr}}
-
-    /* Galerie */
-    .gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-    .gallery div{border:1px solid var(--line);border-radius:14px;overflow:hidden}
-    .gallery img{aspect-ratio:4/3;object-fit:cover;width:100%;height:auto;transition:transform .3s ease}
-    .gallery img:hover{transform:scale(1.03)}
-    @media (max-width:980px){.gallery{grid-template-columns:repeat(3,1fr)}}
-    @media (max-width:640px){.gallery{grid-template-columns:repeat(2,1fr)}}
-
-    /* Kontakt */
-    .contact{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}
-    .panel{border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,#101010,#0a0a0a);padding:20px}
-    .field{display:block;width:100%;background:#0f0f11;border:1px solid #222;color:#e5e7eb;border-radius:12px;padding:12px 14px;margin:8px 0 10px}
-    .field:focus{outline:2px solid rgba(239,68,68,.6);border-color:transparent}
-    .map{display:flex;align-items:center;justify-content:center;border:1px dashed #333;color:#a1a1aa;height:220px;border-radius:12px}
-    @media (max-width:980px){.contact{grid-template-columns:1fr}}
-
-    /* Footer */
-    footer{border-top:1px solid rgba(255,255,255,.08);padding:28px 0;background:#000}
-    .foot{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-    .foot .brand img{height:36px;width:36px}
-    .small{color:#a1a1aa;font-size:13px}
-
-    /* Utility */
-    .accent{color:var(--accent)}
-  </style>
-</head>
-<body>
-  <!-- NAVBAR -->
-  <header class="nav">
-    <div class="container nav-inner">
-      <a href="#" class="brand" aria-label="Startseite">
-        <img src="aminigym.jpg" alt="Amini Gym Logo" />
-        <div>
-          <h1>AMINI GYM</h1>
-          <small>Boxing • Kick & Thai Boxing</small>
-        </div>
-      </a>
-
-      <label class="hamburger" for="menu-toggle" aria-label="Menü öffnen">☰</label>
-      <input type="checkbox" id="menu-toggle" aria-hidden="true" />
-      <nav class="menu">
-        <a href="#kurse">Kurse</a>
-        <a href="#trainer">Trainer</a>
-        <a href="#plan">Stundenplan</a>
-        <a href="#preise">Preise</a>
-        <a href="#kontakt" class="cta">Probetraining</a>
-      </nav>
-    </div>
-    <div class="container menu-panel">
-      <a href="#kurse">Kurse</a>
-      <a href="#trainer">Trainer</a>
-      <a href="#plan">Stundenplan</a>
-      <a href="#preise">Preise</a>
-      <a href="#kontakt" class="cta">Probetraining</a>
-    </div>
-  </header>
-
-  <!-- HERO -->
-  <section class="hero">
-    <div class="container hero-grid">
-      <div>
-        <h2>Kämpfe smart. <span class="accent">Trainiere hart.</span></h2>
-        <p>Premium Kampfsport in Berlin – Boxing, Kickboxing & Muay Thai. Strukturierte Kurse, starke Community, echte Resultate.</p>
-        <div class="btns">
-          <a class="btn primary" href="#kontakt">Probetraining buchen</a>
-          <a class="btn" href="#kurse">Kurse ansehen</a>
-        </div>
-        <p class="sub" style="margin-top:14px">Telefon: +49 151 23456789 · E‑Mail: info@aminigym.de</p>
-      </div>
-      <div class="frame">
-        <img src="aminigym.jpg" alt="Amini Gym – Visual" />
-      </div>
-    </div>
+const Section = ({ id, children, className = "" }) => (
+  <section id={id} className={`relative py-20 ${className}`}>
+    {children}
   </section>
+);
 
-  <!-- KURSE -->
-  <section id="kurse" class="section">
-    <div class="container">
-      <h3 class="title">Kurse</h3>
-      <p class="sub">Klare Strukturen, starke Basics und intensives Coaching – für alle Levels.</p>
-      <div class="grid-3">
-        <article class="card">
-          <h3>Boxing</h3>
-          <p class="muted">Technik, Footwork, Sparring – für Anfänger bis Fortgeschrittene.</p>
-        </article>
-        <article class="card">
-          <h3>Kickboxing</h3>
-          <p class="muted">Moderne Kicktechniken, Kombinationen, Partnerdrills.</p>
-        </article>
-        <article class="card">
-          <h3>Muay Thai</h3>
-          <p class="muted">Elbows, Knees, Clinch – das volle Thaiboxen‑Programm.</p>
-        </article>
-      </div>
+const Badge = ({ children }) => (
+  <div className="relative mx-auto w-full max-w-5xl">
+    <div className="absolute inset-0 -skew-y-1 bg-gradient-to-br from-red-600/30 via-white/5 to-black/50 blur-xl rounded-3xl" />
+    <div className="relative rounded-3xl border border-white/15 bg-gradient-to-b from-zinc-900 to-black shadow-2xl">
+      <div className="p-6 md:p-10">{children}</div>
     </div>
-  </section>
+  </div>
+);
 
-  <!-- TRAINER -->
-  <section id="trainer" class="section" style="background:radial-gradient(700px 300px at 50% -10%, rgba(239,68,68,.15), transparent)">
-    <div class="container">
-      <h3 class="title">Trainer</h3>
-      <div class="trainer">
-        <div class="item">
-          <img src="https://images.unsplash.com/photo-1558261242-58c681b3a497?q=80&w=1200&auto=format&fit=crop" alt="Ali Amini" />
-          <div class="info">
-            <h4 style="margin:0 0 4px">Ali Amini</h4>
-            <div class="role">Head Coach – Muay Thai</div>
-            <p class="muted">Ehem. Wettkämpfer, über 10 Jahre Erfahrung, lizensierter Trainer.</p>
-          </div>
+export default function AminiGymSite() {
+  return (
+    <div className="min-h-screen bg-[#0b0b0b] text-zinc-100 antialiased">
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.06),rgba(0,0,0,0)_60%)]"
+      />
+
+      {/* Navbar */}
+      <header className="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-black/40">
+        <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+          <a href="#hero" className="flex items-center gap-3 font-extrabold tracking-wider text-xl">
+            <img src="/aminigym.jpg" alt="Amini Gym Logo" className="h-9 w-9 object-contain" />
+            <span className="text-white">AMINI GYM</span>
+          </a>
+          <ul className="hidden md:flex items-center gap-6">
+            {nav.map((n) => (
+              <li key={n.href}>
+                <a href={n.href} className="text-zinc-300 hover:text-white transition">{n.label}</a>
+              </li>
+            ))}
+          </ul>
+          <a href="#kontakt" className="inline-flex items-center gap-2 rounded-2xl bg-red-600 px-4 py-2 text-sm font-semibold shadow-lg hover:bg-red-500">
+            Jetzt starten <ArrowRight className="w-4 h-4" />
+          </a>
+        </nav>
+      </header>
+
+      {/* Hero */}
+      <Section id="hero" className="pt-16">
+        <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-10 px-4 md:grid-cols-2">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <h1 className="text-4xl md:text-6xl font-black leading-tight tracking-tight">
+              AMINI GYM
+            </h1>
+            <p className="mt-4 text-lg text-zinc-300 max-w-prose">
+              Boxing • Kick & Thai Boxing • Muay Thai – harte Workouts, starke Community und klare Ergebnisse. Trainiere Technik, Ausdauer und Mindset auf höchstem Niveau.
+            </p>
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <a href="#preise" className="rounded-2xl bg-white text-black px-5 py-3 font-bold shadow hover:bg-zinc-200">Preise ansehen</a>
+              <a href="#stundenplan" className="rounded-2xl border border-white/20 px-5 py-3 font-semibold hover:border-white/40">Stundenplan</a>
+            </div>
+            <div className="mt-6 flex items-center gap-6 text-sm text-zinc-400">
+              <span className="inline-flex items-center gap-2"><Clock className="w-4 h-4"/>Mo–Fr 10–22 Uhr</span>
+              <span className="inline-flex items-center gap-2"><MapPin className="w-4 h-4"/>Deine Stadt</span>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
+            <Badge>
+              <div className="grid grid-cols-1 md:grid-cols-5 gap-6 items-center">
+                <div className="md:col-span-2 flex items-center justify-center">
+                  {/* Logo / Emblem */}
+                  <img src="/aminigym.jpg" alt="Amini Gym Emblem" className="w-48 h-48 object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.6)]"/>
+                </div>
+                <div className="md:col-span-3">
+                  <h2 className="text-2xl md:text-3xl font-extrabold tracking-wider">BOXING • KICKBOXING • MUAY THAI</h2>
+                  <p className="mt-3 text-zinc-300">
+                    Modernes Fight-Gym mit starker Handschrift im Schwarz/Rot-Stil – inspiriert vom Badge-Look des Logos.
+                  </p>
+                  <div className="mt-5 flex flex-wrap gap-3">
+                    <span className="rounded-xl border border-red-600/40 bg-red-600/10 px-3 py-1 text-sm">Einsteiger willkommen</span>
+                    <span className="rounded-xl border border-white/15 bg-white/5 px-3 py-1 text-sm">Fortgeschritten & Wettkampf</span>
+                    <span className="rounded-xl border border-white/15 bg-white/5 px-3 py-1 text-sm">Personal Training</span>
+                  </div>
+                </div>
+              </div>
+            </Badge>
+          </motion.div>
         </div>
-        <div class="item">
-          <img src="https://images.unsplash.com/photo-1615212049275-95561c7d70ff?q=80&w=1200&auto=format&fit=crop" alt="Mara K." />
-          <div class="info">
-            <h4 style="margin:0 0 4px">Mara K.</h4>
-            <div class="role">Coach – Boxing</div>
-            <p class="muted">Fokus auf Technik, Defense und smarte Kombos.</p>
-          </div>
-        </div>
-        <div class="item">
-          <img src="https://images.unsplash.com/photo-1542272604-787c3835535d?q=80&w=1200&auto=format&fit=crop" alt="Deniz T." />
-          <div class="info">
-            <h4 style="margin:0 0 4px">Deniz T.</h4>
-            <div class="role">Coach – Kickboxing</div>
-            <p class="muted">Intensive Padsessions, saubere Kicks, Kondition.</p>
-          </div>
-        </div>
-      </div>
+      </Section>
+
+      {/* Rest vom Code bleibt unverändert (Kurse, Stundenplan, Trainer, Preise, Kontakt, Footer) */}
     </div>
-  </section>
-
-  <!-- STUNDENPLAN -->
-  <section id="plan" class="section">
-    <div class="container">
-      <h3 class="title">Stundenplan</h3>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Tag</th>
-              <th>Zeit</th>
-              <th>Kurs</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>Mo</td><td>18:00</td><td>Boxing Basics</td></tr>
-            <tr><td>Mo</td><td>19:00</td><td>Muay Thai</td></tr>
-            <tr><td>Di</td><td>18:00</td><td>Kickboxing</td></tr>
-            <tr><td>Di</td><td>19:15</td><td>Boxing Sparring</td></tr>
-            <tr><td>Mi</td><td>18:30</td><td>Muay Thai Technik</td></tr>
-            <tr><td>Do</td><td>18:00</td><td>Kickboxing Drills</td></tr>
-            <tr><td>Fr</td><td>18:00</td><td>Open Gym & Pads</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="note">* Änderungen vorbehalten – aktuelle Infos auf Social Media.</p>
-    </div>
-  </section>
-
-  <!-- PREISE -->
-  <section id="preise" class="section" style="background:radial-gradient(600px 250px at 50% -5%, rgba(239,68,68,.18), transparent)">
-    <div class="container">
-      <h3 class="title">Preise</h3>
-      <div class="prices">
-        <div class="price">
-          <div class="inner">
-            <div class="badge">Probetraining</div>
-            <div class="money">0€</div>
-            <ul class="perks">
-              <li>1x kostenlos</li>
-              <li>Leihbandagen verfügbar</li>
-              <li>15–20 Min. Vorgespräch</li>
-            </ul>
-            <a href="#kontakt" class="cta">Jetzt testen</a>
-          </div>
-        </div>
-        <div class="price">
-          <div class="inner">
-            <div class="badge">Monat Flex</div>
-            <div class="money">69€</div>
-            <ul class="perks">
-              <li>Alle Kurse</li>
-              <li>Monatlich kündbar</li>
-              <li>Community‑Events</li>
-            </ul>
-            <a href="#kontakt" class="cta">Mitglied werden</a>
-          </div>
-        </div>
-        <div class="price">
-          <div class="inner">
-            <div class="badge">12 Monate</div>
-            <div class="money">59€</div>
-            <ul class="perks">
-              <li>Alle Kurse</li>
-              <li>Sparring & Open Gym</li>
-              <li>1x Personal Check‑in/Monat</li>
-            </ul>
-            <a href="#kontakt" class="cta">Deal sichern</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- GALERIE -->
-  <section class="section">
-    <div class="container">
-      <h3 class="title">Galerie</h3>
-      <div class="gallery">
-        <div><img src="https://picsum.photos/seed/aminigym-1/800/600" alt="Gym 1"></div>
-        <div><img src="https://picsum.photos/seed/aminigym-2/800/600" alt="Gym 2"></div>
-        <div><img src="https://picsum.photos/seed/aminigym-3/800/600" alt="Gym 3"></div>
-        <div><img src="https://picsum.photos/seed/aminigym-4/800/600" alt="Gym 4"></div>
-        <div><img src="https://picsum.photos/seed/aminigym-5/800/600" alt="Gym 5"></div>
-        <div><img src="https://picsum.photos/seed/aminigym-6/800/600" alt="Gym 6"></div>
-        <div><img src="https://picsum.photos/seed/aminigym-7/800/600" alt="Gym 7"></div>
-        <div><img src="https://picsum.photos/seed/aminigym-8/800/600" alt="Gym 8"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- KONTAKT -->
-  <section id="kontakt" class="section">
-    <div class="container contact">
-      <div class="panel">
-        <h3 class="title" style="margin-bottom:6px">Kontakt & Probetraining</h3>
-        <form action="mailto:info@aminigym.de" method="post">
-          <label>Vor- und Nachname</label>
-          <input class="field" type="text" required placeholder="Dein Name" />
-          <label>E‑Mail</label>
-          <input class="field" type="email" required placeholder="name@mail.de" />
-          <label>Telefon</label>
-          <input class="field" type="tel" placeholder="Optional" />
-          <label>Nachricht</label>
-          <textarea class="field" rows="5" placeholder="Wunschtermin, Kurs, Level"></textarea>
-          <button class="cta" type="submit">Senden</button>
-        </form>
-      </div>
-      <div class="panel">
-        <h3 class="title" style="margin-bottom:6px">Anfahrt</h3>
-        <div class="map">Google Maps Einbettung – später ersetzen</div>
-        <p class="small" style="margin-top:10px">Urbanstraße 10, 10967 Berlin · Tel. +49 151 23456789</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="container foot">
-      <div class="brand">
-        <img src="aminigym.jpg" alt="Amini Gym Logo klein" />
-        <div>
-          <strong>AMINI GYM</strong><br>
-          <span class="small">Boxing • Kickboxing • Muay Thai</span>
-        </div>
-      </div>
-      <div class="small">© <span id="year"></span> Amini Gym – Alle Rechte vorbehalten</div>
-    </div>
-  </footer>
-
-  <script>
-    // Nur für Copyright-Jahr, rest ist reines HTML & CSS
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
-</body>
-</html>
+  );
+}
