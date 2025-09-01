@@ -1,139 +1,59 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { Dumbbell, Mail, Phone, MapPin, Clock, Facebook, Instagram, ArrowRight, Calendar, Shield, Sparkles } from "lucide-react";
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AMINI GYM</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #111;
+      color: #fff;
+    }
+    header {
+      padding: 40px 20px;
+    }
+    header img {
+      max-width: 200px;
+      border-radius: 50%;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-top: 20px;
+    }
+    p {
+      font-size: 1.2rem;
+      margin: 10px 0;
+    }
+    .section {
+      padding: 40px 20px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <!-- Dein Logo -->
+    <img src="aminigym.jpg" alt="Amini Gym Logo" />
+    <h1>AMINI GYM</h1>
+    <p>Boxing • Kickboxing • Muay Thai</p>
+  </header>
 
-const nav = [
-  { label: "Start", href: "#hero" },
-  { label: "Kurse", href: "#kurse" },
-  { label: "Stundenplan", href: "#stundenplan" },
-  { label: "Trainer", href: "#trainer" },
-  { label: "Preise", href: "#preise" },
-  { label: "Kontakt", href: "#kontakt" },
-];
-
-const kurse = [
-  { title: "Boxen", desc: "Technik, Kondition & Sparring", icon: <Shield className="w-6 h-6" /> },
-  { title: "Kick- & Thaiboxen", desc: "Kicks, Clinch, Knie, Ellbogen", icon: <Dumbbell className="w-6 h-6" /> },
-  { title: "Muay Thai", desc: "Tradition & Disziplin – für alle Levels", icon: <Sparkles className="w-6 h-6" /> },
-];
-
-const trainer = [
-  { name: "Ali Amini", role: "Head Coach – Muay Thai", bio: "10+ Jahre Erfahrung, mehrfacher Turniersieger.", img: "https://images.unsplash.com/photo-1605296867304-46d5465a13f1?q=80&w=1200&auto=format&fit=crop" },
-  { name: "Nina K.", role: "Boxen & Conditioning", bio: "Technikfokus, Power & Mobility.", img: "https://images.unsplash.com/photo-1521805103424-d8f8430e893f?q=80&w=1200&auto=format&fit=crop" },
-  { name: "Marco L.", role: "Kickboxen", bio: "Fight-Prep & Footwork Spezialist.", img: "https://images.unsplash.com/photo-1544273677-c433136021b4?q=80&w=1200&auto=format&fit=crop" },
-];
-
-const preise = [
-  { name: "Probetraining", price: "0€", features: ["Einmalig", "60 Minuten", "Betreuung vom Coach"]},
-  { name: "Monat Flex", price: "59€", features: ["Alle Kurse", "Monatlich kündbar", "Keine Anmeldegebühr"]},
-  { name: "Jahresplan", price: "49€/Monat", features: ["Beste Preis-Leistung", "Alle Kurse", "Persönlicher Trainingsplan"]},
-];
-
-const stundenplan = [
-  { tag: "Mo", zeit: "18:00", kurs: "Boxen (All Levels)" },
-  { tag: "Mo", zeit: "19:30", kurs: "Muay Thai (Fortgeschritten)" },
-  { tag: "Di", zeit: "18:00", kurs: "Kickboxen (Einsteiger)" },
-  { tag: "Mi", zeit: "18:00", kurs: "Muay Thai (All Levels)" },
-  { tag: "Do", zeit: "19:00", kurs: "Boxen (Fortgeschritten)" },
-  { tag: "Fr", zeit: "18:30", kurs: "Sparring (Nur mit Freigabe)" },
-];
-
-const Section = ({ id, children, className = "" }) => (
-  <section id={id} className={`relative py-20 ${className}`}>
-    {children}
-  </section>
-);
-
-const Badge = ({ children }) => (
-  <div className="relative mx-auto w-full max-w-5xl">
-    <div className="absolute inset-0 -skew-y-1 bg-gradient-to-br from-red-600/30 via-white/5 to-black/50 blur-xl rounded-3xl" />
-    <div className="relative rounded-3xl border border-white/15 bg-gradient-to-b from-zinc-900 to-black shadow-2xl">
-      <div className="p-6 md:p-10">{children}</div>
-    </div>
+  <div class="section">
+    <h2>Über uns</h2>
+    <p>Harte Workouts, starke Community und klare Ergebnisse.<br>
+       Trainiere Technik, Ausdauer und Mindset auf höchstem Niveau.</p>
   </div>
-);
 
-export default function AminiGymSite() {
-  return (
-    <div className="min-h-screen bg-[#0b0b0b] text-zinc-100 antialiased">
-      <div
-        aria-hidden
-        className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.06),rgba(0,0,0,0)_60%)]"
-      />
+  <div class="section">
+    <h2>Öffnungszeiten</h2>
+    <p>Mo–Fr: 10–22 Uhr<br>Sa: 12–18 Uhr</p>
+  </div>
 
-      {/* Navbar */}
-      <header className="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-black/40">
-        <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-          <a href="#hero" className="flex items-center gap-3 font-extrabold tracking-wider text-xl">
-            <img src="/aminigym.jpg" alt="Amini Gym Logo" className="h-9 w-9 object-contain" />
-            <span className="text-white">AMINI GYM</span>
-          </a>
-          <ul className="hidden md:flex items-center gap-6">
-            {nav.map((n) => (
-              <li key={n.href}>
-                <a href={n.href} className="text-zinc-300 hover:text-white transition">{n.label}</a>
-              </li>
-            ))}
-          </ul>
-          <a href="#kontakt" className="inline-flex items-center gap-2 rounded-2xl bg-red-600 px-4 py-2 text-sm font-semibold shadow-lg hover:bg-red-500">
-            Jetzt starten <ArrowRight className="w-4 h-4" />
-          </a>
-        </nav>
-      </header>
-
-      {/* Hero */}
-      <Section id="hero" className="pt-16">
-        <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-10 px-4 md:grid-cols-2">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <h1 className="text-4xl md:text-6xl font-black leading-tight tracking-tight">
-              AMINI GYM
-            </h1>
-            <p className="mt-4 text-lg text-zinc-300 max-w-prose">
-              Boxing • Kick & Thai Boxing • Muay Thai – harte Workouts, starke Community und klare Ergebnisse. Trainiere Technik, Ausdauer und Mindset auf höchstem Niveau.
-            </p>
-            <div className="mt-6 flex flex-wrap items-center gap-3">
-              <a href="#preise" className="rounded-2xl bg-white text-black px-5 py-3 font-bold shadow hover:bg-zinc-200">Preise ansehen</a>
-              <a href="#stundenplan" className="rounded-2xl border border-white/20 px-5 py-3 font-semibold hover:border-white/40">Stundenplan</a>
-            </div>
-            <div className="mt-6 flex items-center gap-6 text-sm text-zinc-400">
-              <span className="inline-flex items-center gap-2"><Clock className="w-4 h-4"/>Mo–Fr 10–22 Uhr</span>
-              <span className="inline-flex items-center gap-2"><MapPin className="w-4 h-4"/>Deine Stadt</span>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
-            <Badge>
-              <div className="grid grid-cols-1 md:grid-cols-5 gap-6 items-center">
-                <div className="md:col-span-2 flex items-center justify-center">
-                  {/* Logo / Emblem */}
-                  <img src="/aminigym.jpg" alt="Amini Gym Emblem" className="w-48 h-48 object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.6)]"/>
-                </div>
-                <div className="md:col-span-3">
-                  <h2 className="text-2xl md:text-3xl font-extrabold tracking-wider">BOXING • KICKBOXING • MUAY THAI</h2>
-                  <p className="mt-3 text-zinc-300">
-                    Modernes Fight-Gym mit starker Handschrift im Schwarz/Rot-Stil – inspiriert vom Badge-Look des Logos.
-                  </p>
-                  <div className="mt-5 flex flex-wrap gap-3">
-                    <span className="rounded-xl border border-red-600/40 bg-red-600/10 px-3 py-1 text-sm">Einsteiger willkommen</span>
-                    <span className="rounded-xl border border-white/15 bg-white/5 px-3 py-1 text-sm">Fortgeschritten & Wettkampf</span>
-                    <span className="rounded-xl border border-white/15 bg-white/5 px-3 py-1 text-sm">Personal Training</span>
-                  </div>
-                </div>
-              </div>
-            </Badge>
-          </motion.div>
-        </div>
-      </Section>
-
-      {/* Rest vom Code bleibt unverändert (Kurse, Stundenplan, Trainer, Preise, Kontakt, Footer) */}
-    </div>
-  );
-}
+  <div class="section">
+    <h2>Standort</h2>
+    <p>Deine Stadt, Deutschland</p>
+  </div>
+</body>
+</html>
